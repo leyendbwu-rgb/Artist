@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>its_Leyend Music</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Raleway:ital,wght@0,300;0,700;1,300&family=Orbitron:wght@400;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --blue: #0a2fff;
+      --blue-dark: #04115c;
+      --red: #e0001b;
+      --purple: #7b00d4;
+      --purple-light: #c47fff;
+      --bg: #050510;
+      --text: #f0eeff;
+      --glow-blue: 0 0 18px #0a2fff99;
+      --glow-red: 0 0 18px #e0001b99;
+      --glow-purple: 0 0 18px #7b00d499;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Raleway', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; opacity: 0.4;
+    }
+
+    /* ─── HERO ─── */
+    header {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 2rem;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 50%, #7b00d433 0%, transparent 60%),
+        radial-gradient(ellipse 60% 70% at 80% 40%, #0a2fff22 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 50% 100%, #e0001b22 0%, transparent 60%),
+        var(--bg);
+    }
+
+    /* Animated music waves */
+    .waves {
+      position: absolute; bottom: 0; left: 0; width: 100%; height: 180px;
+      display: flex; align-items: flex-end; gap: 3px; padding: 0 1rem;
+      z-index: 1; opacity: 0.35;
+    }
+    .wave-bar {
+      flex: 1; background: linear-gradient(to top, var(--purple), var(--blue));
+      border-radius: 3px 3px 0 0;
+      animation: waveBounce 1s ease-in-out infinite alternate;
+    }
+    @keyframes waveBounce {
+      from { transform: scaleY(0.1); }
+      to   { transform: scaleY(1); }
+    }
+
+    .title-eyebrow {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+      letter-spacing: 0.35em;
+      color: var(--purple-light);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      animation: fadeSlideDown 1s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 14vw, 11rem);
+      line-height: 0.9;
+      letter-spacing: 0.04em;
+      position: relative; z-index: 2;
+      animation: fadeSlideDown 1s 0.15s ease both;
+    }
+    .hero-title span.its { color: var(--text); }
+    .hero-title span.ley {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 50%, var(--red) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 22px #7b00d488);
+    }
+    .hero-title span.music {
+      display: block; font-size: 0.38em; letter-spacing: 0.5em;
+      color: var(--red);
+      -webkit-text-fill-color: var(--red);
+      text-shadow: var(--glow-red);
+      margin-top: 0.3rem;
+    }
+
+    .hero-sub {
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #bbaedd;
+      margin-top: 1.5rem;
+      max-width: 420px;
+      letter-spacing: 0.08em;
+      animation: fadeSlideDown 1s 0.3s ease both;
+      position: relative; z-index: 2;
+    }
+
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem; letter-spacing: 0.3em; color: #7b00d4aa;
+      z-index: 3; animation: pulseHint 2s infinite;
+    }
+    @keyframes pulseHint { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; justify-content: center; gap: 2.5rem;
+      padding: 1rem 2rem;
+      background: rgba(5,5,16,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #7b00d433;
+    }
+    nav a {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      color: #bbaedd; text-decoration: none; text-transform: uppercase;
+      transition: color .2s, text-shadow .2s;
+    }
+    nav a:hover { color: #fff; text-shadow: var(--glow-purple); }
+
+    /* ─── SECTIONS ─── */
+    section {
+      position: relative; z-index: 1;
+      padding: 6rem 2rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem; letter-spacing: 0.4em;
+      color: var(--red); text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 1;
+      background: linear-gradient(120deg, var(--blue) 0%, var(--purple-light) 60%, var(--red) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ─── ARTISTS GRID ─── */
+    .artists-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .artist-card {
+      position: relative;
+      border: 1px solid #7b00d433;
+      border-radius: 2px;
+      overflow: hidden;
+      background: linear-gradient(160deg, #0c0c2a 0%, #100010 100%);
+      transition: transform .35s ease, box-shadow .35s ease;
+      cursor: pointer;
+    }
+    .artist-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 0 40px #7b00d455, 0 0 80px #0a2fff22;
+    }
+
+    .artist-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--red));
+    }
+
+    .card-img-wrap {
+      position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden;
+    }
+    .card-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(0.7) contrast(1.1);
+      transition: filter .4s, transform .5s;
+    }
+    .artist-card:hover .card-img-wrap img {
+      filter: saturate(1.1) contrast(1.1);
+      transform: scale(1.06);
+    }
+
+    .card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, #050510ee 0%, transparent 55%);
+    }
+
+    /* Color accent per card */
+    .card-alter .card-img-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, #e0001b18, transparent 60%);
+    }
+    .card-uke .card-img-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, #0a2fff18, transparent 60%);
+    }
+
+    .card-body { padding: 1.4rem 1.6rem 1.8rem; }
+
+    .card-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem; letter-spacing: 0.35em;
+      padding: 0.25rem 0.7rem;
+      border-radius: 1px;
+      display: inline-block; margin-bottom: 0.7rem;
+      text-transform: uppercase;
+    }
+    .card-alter .card-tag { background: #e0001b22; color: var(--red); border: 1px solid #e0001b55; }
+    .card-uke .card-tag { background: #0a2fff22; color: #7ab0ff; border: 1px solid #0a2fff55; }
+
+    .card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem; letter-spacing: 0.06em;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+    .card-alter .card-name { color: #fff; text-shadow: 0 0 24px #e0001b77; }
+    .card-uke .card-name { color: #fff; text-shadow: 0 0 24px #0a2fff77; }
+
+    .card-desc {
+      font-size: 0.82rem; font-weight: 300; line-height: 1.65;
+      color: #bbaedd; letter-spacing: 0.02em;
+    }
+
+    .card-listen {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1.2rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 1px;
+      transition: background .25s, box-shadow .25s;
+    }
+    .card-alter .card-listen {
+      background: #e0001b22; color: var(--red);
+      border: 1px solid #e0001b66;
+    }
+    .card-alter .card-listen:hover { background: #e0001b44; box-shadow: var(--glow-red); }
+    .card-uke .card-listen {
+      background: #0a2fff22; color: #7ab0ff;
+      border: 1px solid #0a2fff66;
+    }
+    .card-uke .card-listen:hover { background: #0a2fff44; box-shadow: var(--glow-blue); }
+
+    .listen-icon {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .listen-icon svg { width: 10px; height: 10px; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--purple) 30%, var(--blue) 70%, transparent);
+      margin: 0;
+    }
+
+    /* ─── VIBES / ABOUT ─── */
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    @media(max-width:640px){ .about-wrap { grid-template-columns:1fr; } }
+
+    .about-text p {
+      font-size: 0.92rem; font-weight: 300; line-height: 1.9;
+      color: #cbbfde; margin-bottom: 1rem;
+    }
+    .about-text p strong { color: #fff; font-weight: 700; }
+
+    .about-visual {
+      position: relative; aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vinyl {
+      width: 82%; aspect-ratio: 1;
+      border-radius: 50%;
+      background: conic-gradient(
+        #050510 0deg, #0a2fff 3deg, #050510 6deg, #7b00d4 9deg,
+        #050510 12deg, #e0001b 15deg, #050510 18deg,
+        #050510 18deg 340deg,
+        #7b00d4 340deg, #050510 342deg, #0a2fff 345deg, #050510 360deg
+      );
+      border: 6px solid #1a1a3a;
+      box-shadow: 0 0 60px #7b00d455, inset 0 0 30px #00000088;
+      animation: spinVinyl 8s linear infinite;
+    }
+    .vinyl-center {
+      position: absolute;
+      width: 22%; aspect-ratio: 1; border-radius: 50%;
+      background: radial-gradient(circle, #1a0030, #050510);
+      border: 3px solid #7b00d4;
+      box-shadow: var(--glow-purple);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vinyl-center span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.55rem; letter-spacing: 0.15em;
+      color: #c47fff; text-align: center; line-height: 1.2;
+    }
+    @keyframes spinVinyl { to { transform: rotate(360deg); } }
+
+    /* ─── STATS ─── */
+    .stats-row {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+      justify-content: center; padding: 4rem 2rem;
+    }
+    .stat-item {
+      text-align: center; flex: 1; min-width: 140px;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem; letter-spacing: 0.3em; color: #7b00d499;
+      text-transform: uppercase; margin-top: 0.3rem;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+      border-top: 1px solid #7b00d422;
+    }
+    footer .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; letter-spacing: 0.1em;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--red));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    footer p {
+      font-size: 0.72rem; color: #7b00d466;
+      letter-spacing: 0.15em; margin-top: 0.8rem;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* ─── FLOATING PARTICLES ─── */
+    .particles {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: float linear infinite;
+      opacity: 0;
+    }
+    @keyframes float {
+      0%   { transform: translateY(110vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- ── HERO ── -->
+<header>
+  <div class="hero-bg"></div>
+  <p class="title-eyebrow">✦ Música independiente ✦</p>
+  <h1 class="hero-title">
+    <span class="its">its_</span><span class="ley">Leyend</span>
+    <span class="music">Music</span>
+  </h1>
+  <p class="hero-sub">Sonidos que trascienden — donde el ego se funde con la leyenda.</p>
+
+  <!-- Wave bars -->
+  <div class="waves" id="waves"></div>
+  <p class="scroll-hint">▼ scroll</p>
+</header>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#artistas">Artistas</a>
+  <a href="#sobre">Historia</a>
+  <a href="#contacto">Contacto</a>
+</nav>
+
+<!-- ── ARTISTAS ── -->
+<section id="artistas">
+  <p class="section-label">▸ Nuestros Proyectos</p>
+  <h2 class="section-title">Alter Egos &<br>Leyendas</h2>
+
+  <div class="artists-grid">
+
+    <!-- ALTER EGO -->
+    <div class="artist-card card-alter">
+      <div class="card-img-wrap">
+        <img
+          src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80&fit=crop"
+          alt="Alter Ego – Artista de música"
+        />
+        <div class="card-overlay"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Proyecto</span>
+        <h3 class="card-name">Alter Ego</h3>
+        <p class="card-desc">
+          Un proyecto que explora los lados ocultos de la identidad a través de sonidos urbanos, letras crudas y beats que te golpean directo en el pecho. El alter ego que todos llevamos dentro.
+        </p>
+        <a href="#" class="card-listen">
+          <span class="listen-icon">
+            <svg viewBox="0 0 10 10" fill="currentColor">
+              <polygon points="2,1 9,5 2,9"/>
+            </svg>
+          </span>
+          Escuchar
+        </a>
+      </div>
+    </div>
+
+    <!-- LEYEND WITH UKE -->
+    <div class="artist-card card-uke">
+      <div class="card-img-wrap">
+        <img
+          src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600&q=80&fit=crop"
+          alt="Leyendwithuke – ukulele artist"
+        />
+        <div class="card-overlay"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Proyecto</span>
+        <h3 class="card-name">Leyendwithuke</h3>
+        <p class="card-desc">
+          La leyenda con ukulele. Melodías íntimas que viajan entre lo acústico y lo soñador, donde las cuatro cuerdas cuentan historias que las palabras solas no pueden.
+        </p>
+        <a href="#" class="card-listen">
+          <span class="listen-icon">
+            <svg viewBox="0 0 10 10" fill="currentColor">
+              <polygon points="2,1 9,5 2,9"/>
+            </svg>
+          </span>
+          Escuchar
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── STATS ── -->
+<div class="stats-row">
+  <div class="stat-item">
+    <div class="stat-num">2</div>
+    <div class="stat-label">Proyectos</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Vibraciones</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">1</div>
+    <div class="stat-label">Leyenda</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── SOBRE ── -->
+<section id="sobre">
+  <p class="section-label">▸ Nuestra Historia</p>
+  <h2 class="section-title">La Leyenda<br>Comienza</h2>
+
+  <div class="about-wrap">
+    <div class="about-text">
+      <p>
+        <strong>its_Leyend Music</strong> nace de la convicción de que la música es un universo paralelo al que todos merecen acceso. Desde las calles hasta el estudio, cada nota tiene historia.
+      </p>
+      <p>
+        Con dos proyectos únicos — <strong>Alter Ego</strong>, que explora la dualidad del artista, y <strong>Leyendwithuke</strong>, que lleva la intimidad acústica a otro nivel — construimos un sonido que no pide permiso.
+      </p>
+      <p>
+        Música independiente. Identidad sin filtros. Leyenda en progreso.
+      </p>
+    </div>
+    <div class="about-visual">
+      <div class="vinyl"></div>
+      <div class="vinyl-center"><span>its_<br>Leyend</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── FOOTER ── -->
+<footer id="contacto">
+  <div class="footer-logo">its_Leyend Music</div>
+  <p>© 2026 · Todos los derechos reservados · Música que deja huella</p>
+</footer>
+
+<script>
+  // ── Wave bars ──
+  const wavesEl = document.getElementById('waves');
+  for (let i = 0; i < 80; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'wave-bar';
+    bar.style.height = `${Math.random() * 100 + 20}%`;
+    bar.style.animationDelay = `${Math.random() * 1}s`;
+    bar.style.animationDuration = `${0.5 + Math.random() * 0.8}s`;
+    wavesEl.appendChild(bar);
+  }
+
+  // ── Floating particles ──
+  const colors = ['#0a2fff', '#7b00d4', '#e0001b', '#c47fff', '#7ab0ff'];
+  const pContainer = document.getElementById('particles');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 5 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random() * 100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${8 + Math.random() * 12}s;
+      animation-delay:${Math.random() * 10}s;
+      box-shadow: 0 0 ${size*3}px currentColor;
+    `;
+    pContainer.appendChild(p);
+  }
+</script>
+</body>
+</html>
